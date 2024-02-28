@@ -29,7 +29,7 @@ type httpGetter struct {
 }
 
 func (h *httpGetter) Get(group string, key string) ([]byte, error) {
-	u := fmt.Sprintln(
+	u := fmt.Sprintf(
 		"%v%v/%v",
 		h.baseURL,
 		url.QueryEscape(group),
