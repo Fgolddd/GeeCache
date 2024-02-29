@@ -1,8 +1,12 @@
 package singleflight
 
-import "sync"
+import (
+	"log"
+	"os"
+	"sync"
+)
 
-//  an in-flight or completed Do call
+// an in-flight or completed Do call
 type call struct {
 	wg  sync.WaitGroup
 	val interface{}
@@ -20,9 +24,16 @@ func (g *Group) Do(key string, fn func() (interface{}, error)) (interface{}, err
 	if g.m == nil {
 		g.m = make(map[string]*call)
 	}
+	//if goroutine is requiring
 	if c, ok := g.m[key]; ok {
+		//release the lock
 		g.mtx.Unlock()
+
+		//waiting return
+		euid := os.Geteuid()
+		log.Printf("requiring------, waiting euid: %d return", euid)
 		c.wg.Wait()
+
 		return c.val, c.err
 	}
 	c := new(call)
