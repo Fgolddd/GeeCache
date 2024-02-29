@@ -16,4 +16,38 @@
 3. 加入缓存过期机制
 4. 拓展缓存淘汰策略lfu、arc
 
+## 项目结构
+``` txt
+.
+|-- README.md
+|-- geecache
+|   |-- byteview.go
+|   |-- cache.go                     //支持缓存淘汰策略的底层缓存
+|   |-- consistenthash               //一致性哈希（负载均衡）
+|   |   |-- consistenthash.go
+|   |   `-- consistenthash_test.go
+|   |-- geecache.go                  //对底层缓存的封装
+|   |-- geecache_test.go
+|   |-- geecachepb                   //切换protobuf
+|   |   |-- geecachepb.pb.go
+|   |   `-- geecachepb.proto
+|   |-- go.mod
+|   |-- go.sum
+|   |-- http.go                      //HTTP通信
+|   |-- peers.go   
+|   |-- singleflight                 //并发请求处理优化（协程编排）
+|   |   |-- singleflight.go
+|   |   `-- singleflight_test.go
+|   `-- tactics                      //缓存淘汰策略
+|       |-- fifo                     //FIFO淘汰策略
+|       |   |-- fifo.go
+|       |   `-- fifo_test.go
+|       `-- lru                      //LRU淘汰策略
+|           |-- lru.go
+|           `-- lru_test.go
+|-- go.mod
+|-- go.sum
+|-- main.go
+`-- run.sh                           //测试脚本
+```
 
